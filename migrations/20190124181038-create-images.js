@@ -9,25 +9,36 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       server: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       url: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          isEmail: true
+        }
       },
       review: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       facebook: {
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        validate: {
+          isInt: true
+        }
       },
       createdAt: {
         allowNull: false,
