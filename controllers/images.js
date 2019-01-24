@@ -4,6 +4,41 @@ const Images = require('../models').Images;
 const Joi = require('joi');
 
 module.exports = {
+	uploadImage(req, res){
+		console.log(req);
+		if (Object.keys(req.files).length == 0) {
+	    	return res.status(400).send('No files were uploaded.');
+	  	}
+
+	  	// The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+		let sampleFile = req.files.image;
+
+		// Create unique bucket name
+		const bucketName = "lmexpedition";
+		// Create name for uploaded object key
+		const keyName = 'images/'+req.files.image.name;
+
+		// Create params for putObject call
+	    const objectParams = {Bucket: bucketName, keyName: keyName, file: req.files.image.data, ACL: 'private'};
+
+	    // Create headers 
+	    const headers = {'x-api-key':"YOUR_API_KEY"};
+
+		request.post({url:'https://1oh08imqy7.execute-api.us-east-1.amazonaws.com/final/uploadFile',headers:headers, form: JSON.stringify(objectParams)}, 
+		(err,httpResponse,body)=>{
+
+			let asd = body.split("?");
+			const url = asd[0];
+
+			const file = {
+				server: "aws",
+				fileName: keyName.toString(),
+				url: url
+			};
+			return res.json(file);
+		});
+	},
+
 	createImage(req, res) {
 		return Joi.object().keys({
 			name: Joi.string().empty().required(),
