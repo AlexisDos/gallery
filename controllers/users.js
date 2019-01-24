@@ -5,10 +5,10 @@ const Joi = require('joi');
 
 module.exports = {
 	createUser(req, res){
-		const schema = joi.object().keys({
+		const schema = Joi.object().keys({
 			username: Joi.string().empty().required(),
 			password: Joi.string().empty().required(),
-			firstName: joi.string().empty().required(),
+			firstName: Joi.string().empty().required(),
 			lastName: Joi.string().empty().required()
 		})
 
@@ -17,11 +17,11 @@ module.exports = {
 			where: {
 				username: data.username
 			},
-			default: data
+			defaults: data
 		}))
-		.then((result, created) => {
+		.then(([result, created]) => {
 			if(created === false){ res.send('usuario duplicado');}
-				res.json(user);
+				res.json(result);
 		})
 		.catch(error => res.send(error));
 	},
@@ -66,7 +66,7 @@ module.exports = {
 	},
 
 	destroyUser(req, res){
-		return Joi.Object().keys({
+		return Joi.object().keys({
 			userId: Joi.number().integer().min(1).required()
 		})
 		.validate(req.params, {escapeHtml: true})
