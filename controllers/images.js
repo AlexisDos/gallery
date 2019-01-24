@@ -35,7 +35,7 @@ module.exports = {
 				fileName: keyName.toString(),
 				url: url
 			};
-			return res.json(file);
+			req.local.file = file;
 		});
 	},
 

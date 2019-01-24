@@ -10,4 +10,11 @@ router.put('/:imageId', ImagesController.updateImage);
 // router.put('/:userId/:imageId', ImagesController.updateStatus);
 router.delete('/:imageId', ImagesController.destroyImage);
 
+
+// router.post('/', {
+// 	ImagesController.uploadImage
+	
+// 	ImagesController.createImage
+// });
+
 module.exports = router;

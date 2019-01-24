@@ -1,6 +1,7 @@
 'use strict';
 
 const User = require('../models').User;
+const sequelize = require('../models').sequelize;
 const Joi = require('joi');
 
 module.exports = {
@@ -56,12 +57,15 @@ module.exports = {
 			userId: Joi.number().integer().min(1).required()
 		})
 		.validate(req.params, { escapeHtml: true })
-			.then(data => schema.validate(req.body, { escapeHtml: true }))
-			.then(data => {
-				return User.update(data, {
-						where: { id: req.params.userId }
-					})
-			}).then(result => res.json(result))
+		.then(data => schema.validate(req.body, { escapeHtml: true }))
+		.then(data => {
+			return sequelize.transaction(t => {
+			return User.update(data, {
+					where: { id: req.params.userId },
+					transaction: t
+				})
+			})
+		}).then(result => res.json(result))
 			.catch(error => res.send(error));
 	},
 
