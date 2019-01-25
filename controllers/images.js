@@ -30,12 +30,32 @@ module.exports = {
 			let asd = body.split("?");
 			const url = asd[0];
 
-			const file = {
-				server: "aws",
-				fileName: keyName.toString(),
-				url: url
-			};
-			req.local.file = file;
+			// const file = {
+			// 	server: "aws",
+			// 	fileName: keyName.toString(),
+			// 	url: url
+			// };
+
+			req.body.url = url;
+			req.body.server = "aws";
+
+			// req.local.file = file;
+
+
+			return Joi.object().keys({
+				name: Joi.string().empty().required(),
+				server: Joi.string().empty().required(),
+				url: Joi.string().uri().empty().required(),
+				email: Joi.string().email().empty().optional(),
+				review: Joi.string().empty().optional(),
+				facebook: Joi.string().uri().empty().optional(),
+				status: Joi.number().integer().min(1).required()
+			})
+			.validate(req.body, {escapeHtml: true})
+			.then(data => Images.create(data))
+			.then(result => res.json(result))
+			.catch(error => res.send(error));
+
 		});
 	},
 
