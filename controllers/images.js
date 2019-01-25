@@ -2,10 +2,11 @@
 
 const Images = require('../models').Images;
 const Joi = require('joi');
+const request = require('request');
 
 module.exports = {
 	uploadImage(req, res){
-		console.log(req);
+		
 		if (Object.keys(req.files).length == 0) {
 	    	return res.status(400).send('No files were uploaded.');
 	  	}
@@ -28,19 +29,9 @@ module.exports = {
 		(err,httpResponse,body)=>{
 
 			let asd = body.split("?");
-			const url = asd[0];
-
-			// const file = {
-			// 	server: "aws",
-			// 	fileName: keyName.toString(),
-			// 	url: url
-			// };
-
-			req.body.url = url;
+			req.body.url = asd[0];
 			req.body.server = "aws";
-
-			// req.local.file = file;
-
+			req.body.status = 2; //No validada
 
 			return Joi.object().keys({
 				name: Joi.string().empty().required(),
