@@ -3,7 +3,7 @@ const router = express.Router();
 
 const ImagesController = require('../controllers/images');
 
-router.post('/', ImagesController.createImage);
+router.post('/', ImagesController.uploadImage);
 router.get('/', ImagesController.findAllImages);
 router.get('/:imageId', ImagesController.findImageByPk);
 router.put('/:imageId', ImagesController.updateImage);
