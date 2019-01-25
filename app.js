@@ -1,15 +1,18 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const fileUpload = require('express-fileupload');
+const session = require('express-session');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var imagesRouter = require('./routes/images');
-var authRouter = require('./routes/auth');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const imagesRouter = require('./routes/images');
+const authRouter = require('./routes/auth');
 
-var app = express();
+const app = express();
+
+app.use(session({secret:'session', resave: false, saveUninitialized: true}));
 
 app.use(fileUpload());
 

@@ -1,11 +1,9 @@
 'use strict';
 
-
 const passport = require('passport');
 const express = require('express');
 const session = require('express-session');
 require('./_passport.js');
-
 
 module.exports = {
   login(req, res, next){
@@ -15,15 +13,7 @@ module.exports = {
         if(info){ 
             await res.status(401).json({message: "Incorrect username or password"});
         }
-        
-
-
-
-        let app = express()
-        app.use(session({secret:  'secretsession'}));
-
-        // console.log(err);
-        // console.log(info.message);
+ 
         const response = await {
                 id: user.id,
                 username: user.username,
@@ -32,11 +22,13 @@ module.exports = {
                 isAuth: true,
                 message: "These credentials has been validated."
         };
+
+        req.session.dataUser = response;
+
         await res.status(201).json(response);
         
     }catch(err){
         next(err);
-        //console.log(err)
     }   
     })(req, res, next)
   }

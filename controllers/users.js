@@ -6,7 +6,7 @@ const Joi = require('joi');
 
 module.exports = {
 	createUser(req, res){
-		const schema = Joi.object().keys({
+		return Joi.object().keys({
 			username: Joi.string().empty().required(),
 			password: Joi.string().empty().required(),
 			firstName: Joi.string().empty().required(),
@@ -28,6 +28,7 @@ module.exports = {
 	},
 
 	findAllUsers(req, res){
+		console.log(req.session.dataUser);
 		return User
 		.findAll()
 		.then(result => res.json(result))
