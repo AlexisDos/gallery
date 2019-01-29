@@ -80,6 +80,19 @@ module.exports = {
 		.then(result => res.json(result))
 		.catch(error => res.send(error));
 	},
+	findAllImagesByStatus(req, res) {
+		return Joi.object().keys({
+			status: Joi.number().integer().min(1).required()
+		})
+		.validate(req.body, {escapeHtml: true})
+		.then(data => Images.findAll({
+			where:{
+				status: data.status
+			}
+		}))
+	    .then(result => res.json(result))
+	    .catch(error => res.send(error));
+	},
 	updateStatus(req, res) {
 		const schema = Joi.object().keys({
 			status: Joi.number().integer().min(1).required()

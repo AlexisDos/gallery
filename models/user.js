@@ -17,9 +17,17 @@ module.exports = (sequelize, DataTypes) => {
   User.prototype.validPassword = (password, hash) => {
     return bcrypt.compareSync(password, hash);
   };
-  User.addHook("beforeCreate", async (user) => {
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
+  // User.addHook("beforeCreate", async (user) => {
+  //   const salt = await bcrypt.genSalt(10);
+  //   user.password = await bcrypt.hash(user.password, salt);
+  // });
+
+  User.addHook("beforeValidate", async (user) => {
+    if(user.password){  
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(user.password, salt);
+    }
+    //console.log(user.password);
   });
   return User;
 };
