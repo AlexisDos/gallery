@@ -84,7 +84,7 @@ module.exports = {
 		return Joi.object().keys({
 			status: Joi.number().integer().min(1).required()
 		})
-		.validate(req.body, {escapeHtml: true})
+		.validate(req.params, {escapeHtml: true})
 		.then(data => Images.findAll({
 			where:{
 				status: data.status
