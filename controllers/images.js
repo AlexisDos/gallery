@@ -99,6 +99,7 @@ module.exports = {
 		});
 
 		return Joi.object().keys({
+			userId: Joi.number().integer().min(1).required(),
 			imageId: Joi.number().integer().min(1).required()
 		})
 		.validate(req.params, {escapeHtml: true})
