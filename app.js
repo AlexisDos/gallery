@@ -10,6 +10,8 @@ const usersRouter = require('./routes/users');
 const imagesRouter = require('./routes/images');
 const authRouter = require('./routes/auth');
 
+const errorMessage = require('./util/error').errorMessage;
+
 const app = express();
 
 app.use(session({secret:'session', resave: false, saveUninitialized: true}));
@@ -26,5 +28,7 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/images', imagesRouter);
+
+app.use(errorMessage);
 
 module.exports = app;

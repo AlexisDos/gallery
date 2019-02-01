@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Images = sequelize.define('Images', {
+  const Images = sequelize.define('Imagessss', {
     name: DataTypes.STRING,
     server: DataTypes.STRING,
     url: DataTypes.STRING,

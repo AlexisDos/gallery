@@ -3,9 +3,10 @@
 const Images = require('../models').Images;
 const Joi = require('joi');
 const request = require('request');
+const ErrorManagement = require('../util/error').ErrorManagement;
 
 module.exports = {
-	uploadImage(req, res){
+	uploadImage(req, res, next){
 		
 		if (Object.keys(req.files).length == 0) {
 	    	return res.status(400).send('No files were uploaded.');
@@ -30,7 +31,7 @@ module.exports = {
 
 			let asd = body.split("?");
 			req.body.url = asd[0];
-			req.body.server = "aws";
+			// req.body.server = "aws";
 			req.body.status = 2; //No validada
 
 			return Joi.object().keys({
@@ -45,8 +46,7 @@ module.exports = {
 			.validate(req.body, {escapeHtml: true})
 			.then(data => Images.create(data))
 			.then(result => res.json(result))
-			.catch(error => res.send(error));
-
+			.catch(error => next(new ErrorManagement(error)));
 		});
 	},
 
